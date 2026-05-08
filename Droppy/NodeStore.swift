@@ -16,11 +16,11 @@ final class NodeStore {
 
     init() {
         load()
-        #if DEBUG
-        if root.isEmpty {
-            loadSampleData()
-        }
-        #endif
+//        #if DEBUG
+//        if root.isEmpty {
+//            loadSampleData()
+//        }
+//        #endif
     }
 
     private func loadSampleData() {
