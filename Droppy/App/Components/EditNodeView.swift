@@ -1,90 +1,16 @@
 //
-//  ContentView.swift
+//  EditNodeView.swift
 //  Droppy
+//
+//  Created by Victor Johnson on 5/10/26.
 //
 
 import SwiftUI
 
-struct ContentView: View {
-    @Environment(NodeStore.self) private var store
-    @State private var selectedID: UUID?
-    @State private var formMode: NodeFormView.Mode?
-
-    private var selectedFolder: PasteNode? {
-        guard let id = selectedID, let node = store.node(id: id), node.isFolder else { return nil }
-        return node
-    }
-
-    var body: some View {
-        List(store.root, id: \.id, children: \.children, selection: $selectedID) { node in
-            NodeRow(node: node)
-                .contextMenu {
-                    if node.isFolder {
-                        Button("Add to \(node.name)") {
-                            formMode = .add(parentID: node.id)
-                        }
-                        Divider()
-                    }
-                    Button("Edit") {
-                        formMode = .edit(node: node)
-                    }
-                    Button("Delete", role: .destructive) {
-                        store.delete(node.id)
-                    }
-                }
-        }
-        .toolbar {
-            Button(action: {
-                formMode = .add(parentID: selectedFolder?.id)
-            }) {
-                Label("Add", systemImage: "plus")
-            }
-        }
-        .sheet(item: $formMode) { mode in
-            NodeFormView(mode: mode) {
-                formMode = nil
-            }
-        }
-        .frame(minWidth: 400, minHeight: 300)
-        .navigationTitle("Droppy")
-        .overlay(alignment: .bottom) {
-            GeometryReader { geo in
-                Text("\(Int(geo.size.width)) × \(Int(geo.size.height))")
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .padding(.bottom, 4)
-                    .frame(maxHeight: .infinity, alignment: .bottom)
-            }
-        }
-    }
-}
-
-private struct NodeRow: View {
-    let node: PasteNode
-
-    var body: some View {
-        HStack(spacing: 8) {
-            Text(node.key)
-                .font(.system(.body, design: .monospaced))
-                .foregroundStyle(.secondary)
-                .frame(width: 20)
-            Text(node.name)
-            Spacer()
-            if let value = node.value {
-                Text(value)
-                    .foregroundStyle(.secondary)
-                    .lineLimit(1)
-            }
-        }
-        .padding(4)
-    }
-}
-
-struct NodeFormView: View {
+struct EditNodeView: View {
     enum Mode: Identifiable {
         case add(parentID: UUID?)
-        case edit(node: PasteNode)
+        case edit(node: Node)
 
         var id: String {
             switch self {
@@ -101,6 +27,7 @@ struct NodeFormView: View {
     @State private var key: String
     @State private var name: String
     @State private var value: String
+    @State private var committed: Bool = false
 
     init(mode: Mode, onDone: @escaping () -> Void) {
         self.mode = mode
@@ -138,7 +65,7 @@ struct NodeFormView: View {
     }
 
     private var isDuplicateKey: Bool {
-        guard !key.isEmpty else { return false }
+        guard !key.isEmpty && !committed else { return false }
         return store.isDuplicateKey(key, in: parentID, excludingID: excludingID)
     }
 
@@ -181,6 +108,8 @@ struct NodeFormView: View {
     }
 
     private func commit() {
+        committed = true
+        
         switch mode {
         case .add(let parentID):
             if value.isEmpty {
@@ -192,10 +121,4 @@ struct NodeFormView: View {
             store.update(id: node.id, key: key, name: name, value: node.isFolder ? nil : value)
         }
     }
-}
-
-#Preview("ContentView") {
-    let store = NodeStore()
-    return ContentView()
-        .environment(store)
 }

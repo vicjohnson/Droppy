@@ -4,16 +4,21 @@
 //
 
 import SwiftUI
+import KeyboardShortcuts
 
 @main
 struct DroppyApp: App {
     @State private var store: NodeStore
-    @State private var appState: AppState
+    @State private var panelController: PanelController
 
     init() {
         let store = NodeStore()
+        let controller = PanelController(store: store)
         _store = State(initialValue: store)
-        _appState = State(initialValue: AppState(store: store))
+        _panelController = State(initialValue: controller)
+        KeyboardShortcuts.onKeyUp(for: .openPanel) { [controller] in
+            controller.show()
+        }
     }
 
     var body: some Scene {
@@ -28,6 +33,7 @@ struct DroppyApp: App {
             SettingsPage()
                 .environment(store)
         }
+
     }
 }
 

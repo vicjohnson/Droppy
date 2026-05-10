@@ -15,3 +15,7 @@ struct SettingsPage: View {
         .frame(minWidth: 300)
     }
 }
+
+#Preview {
+    SettingsPage()
+}

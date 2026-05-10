@@ -10,13 +10,25 @@ final class PanelController {
     private var panel: NSPanel?
     private let store: NodeStore
     private var previousApp: NSRunningApplication?
+    private var statusItem: NSStatusItem?
 
     init(store: NodeStore) {
         self.store = store
+        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+        statusItem?.button?.image = NSImage(systemSymbolName: "list.clipboard", accessibilityDescription: "Droppy")
+        statusItem?.button?.action = #selector(statusItemClicked)
+        statusItem?.button?.target = self
+    }
+
+    @objc private func statusItemClicked() {
+        show()
     }
 
     func show() {
-        previousApp = NSWorkspace.shared.frontmostApplication
+        let frontmost = NSWorkspace.shared.frontmostApplication
+        if frontmost?.bundleIdentifier != Bundle.main.bundleIdentifier {
+            previousApp = frontmost
+        }
         if panel == nil {
             panel = makePanel()
         }
@@ -25,6 +37,7 @@ final class PanelController {
         panel?.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
 
+        // Close on click outside
         NotificationCenter.default.addObserver(
             forName: NSWindow.didResignKeyNotification,
             object: panel,
@@ -41,12 +54,28 @@ final class PanelController {
     }
 
     func pasteAndHide(value: String) {
+        let savedItems = NSPasteboard.general.pasteboardItems?.map { item -> NSPasteboardItem in
+            let copy = NSPasteboardItem()
+            for type in item.types {
+                if let data = item.data(forType: type) {
+                    copy.setData(data, forType: type)
+                }
+            }
+            return copy
+        }
+
         panel?.orderOut(nil)
         NSPasteboard.general.clearContents()
         NSPasteboard.general.setString(value, forType: .string)
         previousApp?.activate()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            simulatePaste()
+            self.simulatePaste()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                NSPasteboard.general.clearContents()
+                if let items = savedItems {
+                    NSPasteboard.general.writeObjects(items)
+                }
+            }
         }
     }
 
@@ -80,10 +109,23 @@ final class PanelController {
             defer: false
         )
         panel.isFloatingPanel = true
-        panel.titlebarAppearsTransparent = true
-        panel.title = ""
         panel.isMovableByWindowBackground = true
+        panel.title = ""
+        panel.titlebarAppearsTransparent = true
+        panel.standardWindowButton(.closeButton)?.isHidden = true
+        panel.standardWindowButton(.miniaturizeButton)?.isHidden = true
+        panel.standardWindowButton(.zoomButton)?.isHidden = true
         panel.contentView = makeContentView()
         return panel
+    }
+    
+    private func simulatePaste() {
+        let source = CGEventSource(stateID: .hidSystemState)
+        let keyDown = CGEvent(keyboardEventSource: source, virtualKey: 0x09, keyDown: true)
+        let keyUp = CGEvent(keyboardEventSource: source, virtualKey: 0x09, keyDown: false)
+        keyDown?.flags = .maskCommand
+        keyUp?.flags = .maskCommand
+        keyDown?.post(tap: .cgAnnotatedSessionEventTap)
+        keyUp?.post(tap: .cgAnnotatedSessionEventTap)
     }
 }

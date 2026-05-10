@@ -7,32 +7,31 @@ import Foundation
 
 @Observable
 final class NodeStore {
-    var root: [PasteNode] = []
+    var root: [Node] = []
 
     private let fileURL: URL = {
         let dir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
         return dir.appendingPathComponent("nodes.json")
     }()
 
-    init() {
-        load()
-//        #if DEBUG
-//        if root.isEmpty {
-//            loadSampleData()
-//        }
-//        #endif
+    init(preview: Bool = false) {
+        if preview {
+            loadSampleData()
+        } else {
+            load()
+        }
     }
 
     private func loadSampleData() {
         root = [
-            PasteNode(key: "d", name: "Development", content: .folder(children: [
-                PasteNode(key: "l", name: "Localhost URL", content: .snippet(value: "http://localhost:3000")),
-                PasteNode(key: "g", name: "Git email", content: .snippet(value: "vic@example.com")),
+            Node(key: "d", name: "Development", content: .folder(children: [
+                Node(key: "l", name: "Localhost URL", content: .snippet(value: "http://localhost:3000")),
+                Node(key: "g", name: "Git email", content: .snippet(value: "vic@example.com")),
             ])),
-            PasteNode(key: "p", name: "Personal", content: .folder(children: [
-                PasteNode(key: "e", name: "Email", content: .snippet(value: "vic@example.com")),
+            Node(key: "p", name: "Personal", content: .folder(children: [
+                Node(key: "e", name: "Email", content: .snippet(value: "vic@example.com")),
             ])),
-            PasteNode(key: "h", name: "Hello World", content: .snippet(value: "Hello World")),
+            Node(key: "h", name: "Hello World", content: .snippet(value: "Hello World")),
         ]
         save()
     }
@@ -40,13 +39,13 @@ final class NodeStore {
     // MARK: - Mutations
 
     func addFolder(key: String, name: String, to parentID: UUID? = nil) {
-        let node = PasteNode(key: key, name: name, content: .folder(children: []))
+        let node = Node(key: key, name: name, content: .folder(children: []))
         insert(node, into: parentID)
         save()
     }
 
     func addSnippet(key: String, name: String, value: String, to parentID: UUID? = nil) {
-        let node = PasteNode(key: key, name: name, content: .snippet(value: value))
+        let node = Node(key: key, name: name, content: .snippet(value: value))
         insert(node, into: parentID)
         save()
     }
@@ -63,7 +62,7 @@ final class NodeStore {
 
     // MARK: - Lookup
 
-    func node(id: UUID) -> PasteNode? {
+    func node(id: UUID) -> Node? {
         find(id, in: root)
     }
 
@@ -85,14 +84,14 @@ final class NodeStore {
 
     private func load() {
         guard let data = try? Data(contentsOf: fileURL) else { return }
-        if let decoded = try? JSONDecoder().decode([PasteNode].self, from: data) {
+        if let decoded = try? JSONDecoder().decode([Node].self, from: data) {
             root = decoded
         }
     }
 
     // MARK: - Tree helpers
 
-    private func insert(_ node: PasteNode, into parentID: UUID?) {
+    private func insert(_ node: Node, into parentID: UUID?) {
         if let parentID {
             root = insertInto(parentID, in: root, node: node)
         } else {
@@ -100,46 +99,46 @@ final class NodeStore {
         }
     }
 
-    private func insertInto(_ parentID: UUID, in nodes: [PasteNode], node: PasteNode) -> [PasteNode] {
+    private func insertInto(_ parentID: UUID, in nodes: [Node], node: Node) -> [Node] {
         nodes.map { n in
             if n.id == parentID, case .folder(var children) = n.content {
                 children.append(node)
-                return PasteNode(id: n.id, key: n.key, name: n.name, content: .folder(children: children))
+                return Node(id: n.id, key: n.key, name: n.name, content: .folder(children: children))
             } else if case .folder(let children) = n.content {
-                return PasteNode(id: n.id, key: n.key, name: n.name, content: .folder(children: insertInto(parentID, in: children, node: node)))
+                return Node(id: n.id, key: n.key, name: n.name, content: .folder(children: insertInto(parentID, in: children, node: node)))
             }
             return n
         }
     }
 
-    private func remove(_ id: UUID, from nodes: [PasteNode]) -> [PasteNode] {
+    private func remove(_ id: UUID, from nodes: [Node]) -> [Node] {
         nodes.compactMap { n in
             if n.id == id { return nil }
             if case .folder(let children) = n.content {
-                return PasteNode(id: n.id, key: n.key, name: n.name, content: .folder(children: remove(id, from: children)))
+                return Node(id: n.id, key: n.key, name: n.name, content: .folder(children: remove(id, from: children)))
             }
             return n
         }
     }
 
-    private func updateNode(id: UUID, key: String, name: String, value: String?, in nodes: [PasteNode]) -> [PasteNode] {
+    private func updateNode(id: UUID, key: String, name: String, value: String?, in nodes: [Node]) -> [Node] {
         nodes.map { n in
             if n.id == id {
-                let content: PasteNode.Content
+                let content: Node.Content
                 if case .folder(let children) = n.content {
                     content = .folder(children: children)
                 } else {
                     content = .snippet(value: value ?? "")
                 }
-                return PasteNode(id: n.id, key: key, name: name, content: content)
+                return Node(id: n.id, key: key, name: name, content: content)
             } else if case .folder(let children) = n.content {
-                return PasteNode(id: n.id, key: n.key, name: n.name, content: .folder(children: updateNode(id: id, key: key, name: name, value: value, in: children)))
+                return Node(id: n.id, key: n.key, name: n.name, content: .folder(children: updateNode(id: id, key: key, name: name, value: value, in: children)))
             }
             return n
         }
     }
 
-    private func find(_ id: UUID, in nodes: [PasteNode]) -> PasteNode? {
+    private func find(_ id: UUID, in nodes: [Node]) -> Node? {
         for node in nodes {
             if node.id == id { return node }
             if let children = node.children, let found = find(id, in: children) { return found }

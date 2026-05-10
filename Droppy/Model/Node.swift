@@ -5,14 +5,14 @@
 
 import Foundation
 
-struct PasteNode: Identifiable, Codable {
+struct Node: Identifiable, Codable {
     var id: UUID
     var key: String
     var name: String
     var content: Content
 
     enum Content: Codable {
-        case folder(children: [PasteNode])
+        case folder(children: [Node])
         case snippet(value: String)
     }
 
@@ -28,7 +28,7 @@ struct PasteNode: Identifiable, Codable {
         return false
     }
 
-    var children: [PasteNode]? {
+    var children: [Node]? {
         if case .folder(let children) = content { return children }
         return nil
     }
