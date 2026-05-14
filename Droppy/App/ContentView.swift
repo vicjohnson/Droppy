@@ -58,16 +58,16 @@ struct ContentView: View {
                 }
             }
         }
-//        .overlay(alignment: .bottom) {
-//            GeometryReader { geo in
-//                Text("\(Int(geo.size.width)) × \(Int(geo.size.height))")
-//                    .font(.caption2)
-//                    .foregroundStyle(.secondary)
-//                    .frame(maxWidth: .infinity, alignment: .center)
-//                    .padding(.bottom, 4)
-//                    .frame(maxHeight: .infinity, alignment: .bottom)
-//            }
-//        }
+        .overlay(alignment: .bottom) {
+            GeometryReader { geo in
+                Text("\(Int(geo.size.width)) × \(Int(geo.size.height))")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.bottom, 4)
+                    .frame(maxHeight: .infinity, alignment: .bottom)
+            }
+        }
     }
 }
 
