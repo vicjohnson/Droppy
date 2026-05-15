@@ -8,9 +8,9 @@
             <sparkle:version>0.0.5</sparkle:version>
             <sparkle:shortVersionString>0.0.5</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>26.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/vicjohnson/Droppy/releases/download/v0.0.5/Droppy-v0.0.5.zip" length="2517967" type="application/octet-stream" sparkle:edSignature="vCwyVJaSxEzF/Y7OgK3lr8PMTtbBXtWJ5dqdCeh/oGcFhZm6l/wNynEHJjbvnprpEupcl8PJ5gbP5X5bZs7yAA=="/>
+            <enclosure url="https://github.com/vicjohnson/Droppy/releases/download/v0.0.5/Droppy-v0.0.5.zip" length="2518131" type="application/octet-stream" sparkle:edSignature="b098YzTEx7GCpXqas77aiqCZ3Yi4L4EsmMwPUsf68+Gen3rYU1d8sAwwTXPb5f8XBLbzPEwXgXgmTUtn0lofBA=="/>
             <sparkle:deltas>
-                <enclosure url="https://github.com/vicjohnson/Droppy/releases/download/v0.0.5/Droppy0.0.5-0.0.4.delta" sparkle:deltaFrom="0.0.4" length="11906" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="975840" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="bSQeAWEV2sduPOZI0PNRB17wYq+V9JRVxQLx7bb4P+sqmRikEOgLXF2EfMHuhRlKfCu33I4Xt8DH6T9biaImCQ=="/>
+                <enclosure url="https://github.com/vicjohnson/Droppy/releases/download/v0.0.5/Droppy0.0.5-0.0.4.delta" sparkle:deltaFrom="0.0.4" length="12090" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="975840" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="nf83zvnndA7sZVH6mPaTwdp1sPwIhkBYjdD3C9ufwX/2SjeHmuPyD67QK6hVHdoc+jT+FFn1/bGQdJPKyCtjCg=="/>
             </sparkle:deltas>
         </item>
         <item>
@@ -23,4 +23,3 @@
         </item>
     </channel>
 </rss>
-<!-- Just some nonsense to trigger a pages build -->
