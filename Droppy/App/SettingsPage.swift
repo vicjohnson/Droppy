@@ -38,7 +38,8 @@ struct SettingsPage: View {
                                 )
                                 .frame(width: 50)
                                 .padding([.trailing], 20)
-                            
+                                .onSubmit { panelController.updatePreviewFrame() }
+
                             Text("Y")
                             TextField("", value: $settings.panelY, format: .number)
                                 .padding(4)
@@ -47,11 +48,12 @@ struct SettingsPage: View {
                                     .fill(Color(white: 0.106))
                                 )
                                 .frame(width: 50)
+                                .onSubmit { panelController.updatePreviewFrame() }
                         }
                     }
-                    
+
                 }
-                
+
                 LabeledContent("Size") {
                     HStack {
                         Text("W")
@@ -63,7 +65,8 @@ struct SettingsPage: View {
                             )
                             .frame(width: 50)
                             .padding([.trailing], 20)
-                        
+                            .onSubmit { panelController.updatePreviewFrame() }
+
                         Text("H")
                         TextField("", value: $settings.panelHeight, format: .number)
                             .padding(4)
@@ -72,6 +75,7 @@ struct SettingsPage: View {
                                 .fill(Color(white: 0.106))
                             )
                             .frame(width: 50)
+                            .onSubmit { panelController.updatePreviewFrame() }
                     }
                 }
             }
@@ -80,9 +84,6 @@ struct SettingsPage: View {
         .scrollDisabled(true)
         .fixedSize(horizontal: false, vertical: true)
         .onChange(of: settings.panelLocation) { _, _ in
-            panelController.updatePreviewFrame()
-        }
-        .onChange(of: settings.customPanelFrame) { _, _ in
             panelController.updatePreviewFrame()
         }
         .onAppear {
@@ -95,8 +96,14 @@ struct SettingsPage: View {
 
     private func updatePreview(settings: SettingsStore) {
         panelController.showPreview { newFrame in
-            settings.panelX = newFrame.origin.x
-            settings.panelY = newFrame.origin.y
+            let sizeChanged = newFrame.width != settings.panelWidth || newFrame.height != settings.panelHeight
+            if sizeChanged {
+                settings.panelWidth = newFrame.width
+                settings.panelHeight = newFrame.height
+            } else {
+                settings.panelX = newFrame.origin.x
+                settings.panelY = newFrame.origin.y
+            }
         }
     }
 }

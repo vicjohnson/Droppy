@@ -34,13 +34,15 @@ final class PanelController {
         panel?.setFrame(settings.customPanelFrame, display: true)
         panel?.orderFront(nil)
 
-        NotificationCenter.default.addObserver(
-            forName: NSWindow.didMoveNotification,
-            object: panel,
-            queue: .main
-        ) { [weak self] _ in
-            guard let panel = self?.panel else { return }
-            onFrameChanged(panel.frame)
+        for notification in [NSWindow.didMoveNotification, NSWindow.didResizeNotification] {
+            NotificationCenter.default.addObserver(
+                forName: notification,
+                object: panel,
+                queue: .main
+            ) { [weak self] _ in
+                guard let panel = self?.panel else { return }
+                onFrameChanged(panel.frame)
+            }
         }
     }
 
@@ -57,6 +59,7 @@ final class PanelController {
         guard isPreviewMode else { return }
         isPreviewMode = false
         NotificationCenter.default.removeObserver(self, name: NSWindow.didMoveNotification, object: panel)
+        NotificationCenter.default.removeObserver(self, name: NSWindow.didResizeNotification, object: panel)
         panel?.orderOut(nil)
     }
 
@@ -160,7 +163,7 @@ final class PanelController {
     private func makePanel() -> NSPanel {
         let panel = NSPanel(
             contentRect: NSRect(x: 0, y: 0, width: 320, height: 400),
-            styleMask: [.titled, .fullSizeContentView, .nonactivatingPanel],
+            styleMask: [.titled, .resizable, .fullSizeContentView, .nonactivatingPanel],
             backing: .buffered,
             defer: false
         )
