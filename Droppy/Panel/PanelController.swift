@@ -17,10 +17,13 @@ final class PanelController {
     init(store: NodeStore, settings: SettingsStore) {
         self.store = store
         self.settings = settings
-        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-        statusItem?.button?.image = NSImage(systemSymbolName: "list.clipboard", accessibilityDescription: "Droppy")
-        statusItem?.button?.action = #selector(statusItemClicked)
-        statusItem?.button?.target = self
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+            statusItem?.button?.image = NSImage(systemSymbolName: "list.clipboard", accessibilityDescription: "Droppy")
+            statusItem?.button?.action = #selector(statusItemClicked)
+            statusItem?.button?.target = self
+        }
     }
 
     @objc private func statusItemClicked() {
