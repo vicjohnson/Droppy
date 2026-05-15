@@ -16,7 +16,7 @@
 ```
 
 This will:
-- Zip `Droppy.app` → `versions/vX.X.X/Droppy-vX.X.X.zip`
+- Zip `ersions/vX.X.X/Droppy.app` -> `versions/vX.X.X/Droppy-vX.X.X.zip`
 - Copy the zip to `versions/sparkle/` and regenerate the appcast
 - Fix GitHub Releases download URLs in the appcast
 - Copy the updated appcast to `docs/appcast.xml`

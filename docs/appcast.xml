@@ -3,6 +3,19 @@
     <channel>
         <title>Droppy</title>
         <item>
+            <title>0.0.7</title>
+            <pubDate>Fri, 15 May 2026 13:34:49 -0400</pubDate>
+            <sparkle:version>0.0.7</sparkle:version>
+            <sparkle:shortVersionString>0.0.7</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/vicjohnson/Droppy/releases/download/v0.0.7/Droppy-v0.0.7.zip" length="2516800" type="application/octet-stream" sparkle:edSignature="u+/NfwcH2yqaaGlxcCbEIUfzwHnoM54QvGzRBMaYh8uhye+mOGTSCxC64rAjavEyMbTBgBn3o7dA+4SZk4RDCA=="/>
+            <sparkle:deltas>
+                <enclosure url="https://github.com/vicjohnson/Droppy/releases/download/v0.0.7/Droppy0.0.7-0.0.6.delta" sparkle:deltaFrom="0.0.6" length="45274" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="975840" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="iJgrFPUuaCIqBmuOySnolCVUe27Ry9seC9qrXrXaROZVbFbCHffBU8UgfWuXavb3lqJ11mc+IbctOqiTGj76DQ=="/>
+                <enclosure url="https://github.com/vicjohnson/Droppy/releases/download/v0.0.7/Droppy0.0.7-0.0.5.delta" sparkle:deltaFrom="0.0.5" length="56046" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="975840" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="4ahdvelPgaOjJhjHNjzDDjzTYdmnUTwyx/RrUE3trmMnny/R3fZCtfjYqU1WGT4+GPp67kqt25tkdlzuny+oDg=="/>
+                <enclosure url="https://github.com/vicjohnson/Droppy/releases/download/v0.0.7/Droppy0.0.7-0.0.4.delta" sparkle:deltaFrom="0.0.4" length="55970" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="975840" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="Uyxl8abWrcOg58t+eWCOG1GQb+wcdvyq2VmpkaQ4nrDWWBxZa1SvoN+fwG1Pafxuq45EH4R+ndKxFhsN+3agDQ=="/>
+            </sparkle:deltas>
+        </item>
+        <item>
             <title>0.0.6</title>
             <pubDate>Fri, 15 May 2026 05:08:06 -0400</pubDate>
             <sparkle:version>0.0.6</sparkle:version>
