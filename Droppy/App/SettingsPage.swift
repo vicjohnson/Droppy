@@ -82,8 +82,10 @@ struct SettingsPage: View {
             }
             
             Section {
-                Button("Check for Updates") {
-                    checkForUpdates()
+                LabeledContent("Droppy v\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "")") {
+                    Button("Check for Updates") {
+                        checkForUpdates()
+                    }
                 }
             }
         }
@@ -99,12 +101,6 @@ struct SettingsPage: View {
         .onDisappear {
             panelController.hidePreview()
         }
-        
-        Text("Droppy \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "")")
-             .foregroundStyle(.secondary)
-             .font(.caption)
-             .frame(maxWidth: .infinity, alignment: .center)
-             .padding(.bottom, 8)
     }
 
     private func updatePreview(settings: SettingsStore) {
