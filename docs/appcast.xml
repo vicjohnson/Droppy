@@ -3,6 +3,18 @@
     <channel>
         <title>Droppy</title>
         <item>
+            <title>0.0.6</title>
+            <pubDate>Fri, 15 May 2026 05:08:06 -0400</pubDate>
+            <sparkle:version>0.0.6</sparkle:version>
+            <sparkle:shortVersionString>0.0.6</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>26.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/vicjohnson/Droppy/releases/download/v0.0.6/Droppy-v0.0.6.zip" length="2518622" type="application/octet-stream" sparkle:edSignature="cG1sczNiPAfoCf63AF6o/oQ6KwNsFO9Cy8azJIqQNcGGR5DigG0Z1nE6lXIC8NiR1fACEVwYDVOIlPv9+rMsAA=="/>
+            <sparkle:deltas>
+                <enclosure url="https://github.com/vicjohnson/Droppy/releases/download/v0.0.6/Droppy0.0.6-0.0.5.delta" sparkle:deltaFrom="0.0.5" length="46914" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="975840" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="u30z8HKtOmRuuxgOaYBnagTAhyHgCXPMzq45f7FP0USklpxIfUrj/S52jQ6xEJ57dbBEhpeHKGZEkMsnHMMXAQ=="/>
+                <enclosure url="https://github.com/vicjohnson/Droppy/releases/download/v0.0.6/Droppy0.0.6-0.0.4.delta" sparkle:deltaFrom="0.0.4" length="46390" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="975840" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="lgfacza1BVVKgiz13IPN0rlUqUJKtwHGh+NmfAilpn434yxc9+2ESCLczr3GNhVqG09qgxOIDFhrJAajQ3HHBg=="/>
+            </sparkle:deltas>
+        </item>
+        <item>
             <title>0.0.5</title>
             <pubDate>Fri, 15 May 2026 03:47:50 -0400</pubDate>
             <sparkle:version>0.0.5</sparkle:version>
