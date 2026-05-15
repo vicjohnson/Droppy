@@ -8,6 +8,7 @@ struct PanelView: View {
     let store: NodeStore
     let dismiss: () -> Void
     let paste: (String) -> Void
+    var isPreview: Bool = false
 
     @State private var stack: [Node] = []
     @FocusState private var focused: Bool
@@ -36,7 +37,7 @@ struct PanelView: View {
                                 .padding(.horizontal, 12)
                                 .padding(.vertical, 8)
                                 .contentShape(Rectangle())
-                                .onTapGesture { activate(node) }
+                                .onTapGesture { if !isPreview { activate(node) } }
                             Divider()
                         }
                     }
@@ -50,7 +51,8 @@ struct PanelView: View {
         .focused($focused)
         .focusEffectDisabled()
         .onKeyPress(phases: .down) { press in
-            handleKey(press)
+            guard !isPreview else { return .ignored }
+            return handleKey(press)
         }
         .onAppear { focused = true }
     }

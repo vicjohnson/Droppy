@@ -58,6 +58,7 @@ struct ContentView: View {
                 }
             }
         }
+        #if DEBUG
         .overlay(alignment: .bottom) {
             GeometryReader { geo in
                 Text("\(Int(geo.size.width)) × \(Int(geo.size.height))")
@@ -68,6 +69,7 @@ struct ContentView: View {
                     .frame(maxHeight: .infinity, alignment: .bottom)
             }
         }
+        #endif // DEBUG
     }
 }
 

@@ -9,11 +9,14 @@ import SwiftUI
 final class PanelController {
     private var panel: NSPanel?
     private let store: NodeStore
+    private let settings: SettingsStore
     private var previousApp: NSRunningApplication?
     private var statusItem: NSStatusItem?
+    private var isPreviewMode = false
 
-    init(store: NodeStore) {
+    init(store: NodeStore, settings: SettingsStore) {
         self.store = store
+        self.settings = settings
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
         statusItem?.button?.image = NSImage(systemSymbolName: "list.clipboard", accessibilityDescription: "Droppy")
         statusItem?.button?.action = #selector(statusItemClicked)
@@ -24,7 +27,41 @@ final class PanelController {
         show()
     }
 
+    func showPreview(onFrameChanged: @escaping (CGRect) -> Void) {
+        isPreviewMode = true
+        if panel == nil { panel = makePanel() }
+        resetContent()
+        panel?.setFrame(settings.customPanelFrame, display: true)
+        panel?.orderFront(nil)
+
+        NotificationCenter.default.addObserver(
+            forName: NSWindow.didMoveNotification,
+            object: panel,
+            queue: .main
+        ) { [weak self] _ in
+            guard let panel = self?.panel else { return }
+            onFrameChanged(panel.frame)
+        }
+    }
+
+    func updatePreviewFrame() {
+        guard isPreviewMode, let panel else { return }
+        if settings.panelLocation == .custom {
+            panel.setFrame(settings.customPanelFrame, display: true)
+        } else {
+            positionPanel()
+        }
+    }
+
+    func hidePreview() {
+        guard isPreviewMode else { return }
+        isPreviewMode = false
+        NotificationCenter.default.removeObserver(self, name: NSWindow.didMoveNotification, object: panel)
+        panel?.orderOut(nil)
+    }
+
     func show() {
+        if isPreviewMode { hidePreview() }
         let frontmost = NSWorkspace.shared.frontmostApplication
         if frontmost?.bundleIdentifier != Bundle.main.bundleIdentifier {
             previousApp = frontmost
@@ -81,10 +118,28 @@ final class PanelController {
 
     private func positionPanel() {
         guard let panel, let screen = NSScreen.main else { return }
-        let margin: CGFloat = 16
-        let x = screen.visibleFrame.maxX - panel.frame.width - margin
-        let y = screen.visibleFrame.maxY - panel.frame.height - margin
-        panel.setFrameOrigin(NSPoint(x: x, y: y))
+
+        let size = NSSize(width: settings.panelWidth, height: settings.panelHeight)
+        panel.setContentSize(size)
+
+        let defaultMargin: CGFloat = 16
+        var origin: NSPoint = NSPoint(x: defaultMargin, y: defaultMargin)
+
+        switch settings.panelLocation {
+        case .topLeft:
+            origin = NSPoint(x: defaultMargin, y: screen.visibleFrame.maxY - panel.frame.height - defaultMargin)
+        case .topRight:
+            origin = NSPoint(x: screen.visibleFrame.maxX - panel.frame.width - defaultMargin,
+                             y: screen.visibleFrame.maxY - panel.frame.height - defaultMargin)
+        case .bottomLeft:
+            origin = NSPoint(x: defaultMargin, y: defaultMargin)
+        case .bottomRight:
+            origin = NSPoint(x: screen.visibleFrame.maxX - panel.frame.width - defaultMargin, y: defaultMargin)
+        case .custom:
+            origin = NSPoint(x: settings.panelX, y: settings.panelY)
+        }
+        
+        panel.setFrameOrigin(origin)
     }
 
     private func resetContent() {
@@ -96,7 +151,8 @@ final class PanelController {
             PanelView(
                 store: store,
                 dismiss: { [weak self] in self?.hide() },
-                paste: { [weak self] value in self?.pasteAndHide(value: value) }
+                paste: { [weak self] value in self?.pasteAndHide(value: value) },
+                isPreview: isPreviewMode
             )
         )
     }

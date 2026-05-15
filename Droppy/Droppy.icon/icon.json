@@ -1,17 +1,24 @@
 {
-  "fill" : {
-    "automatic-gradient" : "extended-gray:1.00000,1.00000"
-  },
+  "fill-specializations" : [
+    {
+      "value" : "system-light"
+    },
+    {
+      "appearance" : "dark",
+      "value" : "system-dark"
+    }
+  ],
   "groups" : [
     {
+      "blend-mode-specializations" : [
+        {
+          "appearance" : "dark",
+          "value" : "normal"
+        }
+      ],
       "layers" : [
         {
-          "blend-mode-specializations" : [
-            {
-              "appearance" : "dark",
-              "value" : "normal"
-            }
-          ],
+          "blend-mode" : "normal",
           "fill-specializations" : [
             {
               "value" : {
@@ -25,9 +32,17 @@
               }
             }
           ],
-          "glass" : true,
-          "image-name" : "Droppy.png",
-          "name" : "Droppy"
+          "glass" : false,
+          "hidden" : false,
+          "image-name" : "clipboard.png",
+          "name" : "clipboard",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              0,
+              -18
+            ]
+          }
         }
       ],
       "shadow" : {

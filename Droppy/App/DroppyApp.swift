@@ -14,9 +14,10 @@ struct DroppyApp: App {
 
     init() {
         let store = NodeStore()
-        let controller = PanelController(store: store)
+        let settings = SettingsStore()
+        let controller = PanelController(store: store, settings: settings)
         
-        _settings = State(initialValue: SettingsStore())
+        _settings = State(initialValue: settings)
         _store = State(initialValue: store)
         _panelController = State(initialValue: controller)
         
@@ -34,7 +35,7 @@ struct DroppyApp: App {
         .defaultSize(width: 400, height: 1400)
 
         Settings {
-            SettingsPage()
+            SettingsPage(panelController: panelController)
                 .environment(store)
                 .environment(settings)
         }
