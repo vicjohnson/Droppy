@@ -5,9 +5,16 @@
 
 import SwiftUI
 import KeyboardShortcuts
+import Sparkle
 
 @main
 struct DroppyApp: App {
+    private let updaterController = SPUStandardUpdaterController(
+        startingUpdater: true,
+        updaterDelegate: nil,
+        userDriverDelegate: nil
+    )
+    
     @State private var settings: SettingsStore
     @State private var store: NodeStore
     @State private var panelController: PanelController
@@ -35,11 +42,20 @@ struct DroppyApp: App {
         .defaultSize(width: 400, height: 1400)
 
         Settings {
-            SettingsPage(panelController: panelController)
+            SettingsPage(panelController: panelController, checkForUpdates: {
+                updaterController.checkForUpdates(nil)
+            })
                 .environment(store)
                 .environment(settings)
         }
         .defaultSize(width: 400, height: 500)
         .windowResizability(.contentSize)
+        .commands {
+            CommandGroup(after: .appInfo) {
+                Button("Check for Updates") {
+                    updaterController.checkForUpdates(nil)
+                }
+            }
+        }
     }
 }

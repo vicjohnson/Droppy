@@ -1,0 +1,14 @@
+<?xml version="1.0" standalone="yes"?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+    <channel>
+        <title>Droppy</title>
+        <item>
+            <title>0.0.3</title>
+            <pubDate>Fri, 15 May 2026 02:13:18 -0400</pubDate>
+            <sparkle:version>1</sparkle:version>
+            <sparkle:shortVersionString>0.0.3</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>26.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/vicjohnson/Droppy/releases/download/0.0.3/Droppy.zip" sparkle:edSignature="adEMD7E2Kl7eugFyEkUfp35gF4qxJh9sySndtrh+lbvzK2TBp7IeayiCZwMSNhNXzAPkz4xevVwlLntq0kDRDg==" length="1515848" type="application/octet-stream"/>
+        </item>
+    </channel>
+</rss>

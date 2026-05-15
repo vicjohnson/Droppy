@@ -3,11 +3,12 @@
 //  Droppy
 //
 
-import SwiftUI
 import KeyboardShortcuts
+import SwiftUI
 
 struct SettingsPage: View {
     let panelController: PanelController
+    let checkForUpdates: () -> Void
 
     @Environment(SettingsStore.self) private var settings
 
@@ -79,6 +80,12 @@ struct SettingsPage: View {
                     }
                 }
             }
+            
+            Section {
+                Button("Check for Updates") {
+                    checkForUpdates()
+                }
+            }
         }
         .formStyle(.grouped)
         .scrollDisabled(true)
@@ -92,6 +99,12 @@ struct SettingsPage: View {
         .onDisappear {
             panelController.hidePreview()
         }
+        
+        Text("Droppy \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "")")
+             .foregroundStyle(.secondary)
+             .font(.caption)
+             .frame(maxWidth: .infinity, alignment: .center)
+             .padding(.bottom, 8)
     }
 
     private func updatePreview(settings: SettingsStore) {
@@ -109,6 +122,6 @@ struct SettingsPage: View {
 }
 
 #Preview {
-    SettingsPage(panelController: PanelController(store: NodeStore(), settings: SettingsStore()))
+    SettingsPage(panelController: PanelController(store: NodeStore(), settings: SettingsStore()), checkForUpdates: {})
         .environment(SettingsStore())
 }
