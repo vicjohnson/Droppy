@@ -3,12 +3,23 @@
     <channel>
         <title>Droppy</title>
         <item>
+            <title>0.0.5</title>
+            <pubDate>Fri, 15 May 2026 03:47:50 -0400</pubDate>
+            <sparkle:version>0.0.5</sparkle:version>
+            <sparkle:shortVersionString>0.0.5</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>26.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/vicjohnson/Droppy/releases/download/v0.0.5/Droppy-v0.0.5.zip" length="2517967" type="application/octet-stream" sparkle:edSignature="vCwyVJaSxEzF/Y7OgK3lr8PMTtbBXtWJ5dqdCeh/oGcFhZm6l/wNynEHJjbvnprpEupcl8PJ5gbP5X5bZs7yAA=="/>
+            <sparkle:deltas>
+                <enclosure url="https://github.com/vicjohnson/Droppy/releases/download/v0.0.5/Droppy0.0.5-0.0.4.delta" sparkle:deltaFrom="0.0.4" length="11906" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="975840" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="bSQeAWEV2sduPOZI0PNRB17wYq+V9JRVxQLx7bb4P+sqmRikEOgLXF2EfMHuhRlKfCu33I4Xt8DH6T9biaImCQ=="/>
+            </sparkle:deltas>
+        </item>
+        <item>
             <title>0.0.4</title>
             <pubDate>Fri, 15 May 2026 02:49:56 -0400</pubDate>
             <sparkle:version>0.0.4</sparkle:version>
             <sparkle:shortVersionString>0.0.4</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>26.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/vicjohnson1213/Droppy/releases/download/v0.0.4/Droppy-v0.0.4.zip" length="2523014" type="application/octet-stream" sparkle:edSignature="o59vtSJgd+cFrOsZo7T1VQ5yVe0HeHzmdBvmMchkUUWkktShCpJLMhWDb48oNrtTl03F4W2ecngJVUXU6KohCA=="/>
+            <enclosure url="https://github.com/vicjohnson/Droppy/releases/download/v0.0.4/Droppy-v0.0.4.zip" length="2523014" type="application/octet-stream" sparkle:edSignature="o59vtSJgd+cFrOsZo7T1VQ5yVe0HeHzmdBvmMchkUUWkktShCpJLMhWDb48oNrtTl03F4W2ecngJVUXU6KohCA=="/>
         </item>
     </channel>
 </rss>
